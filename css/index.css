@@ -1,0 +1,88 @@
+/* 开关按钮 */
+.switch-box {
+    line-height: 25px;
+    font-size: 14px;
+}
+.btn-on {
+    width: 60px;
+    height: 25px;
+    margin: 0 3px;
+    border-radius: 25px;
+    font-size: 14px;
+}
+
+.btn-on {
+    cursor: pointer;
+    position: relative;
+    border: 1px solid white;
+    background-color: #12B090;
+}
+
+.btn-on-circle {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    top: 5px;
+    left: 5px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 50%;
+    box-shadow: 0 0 10px white;
+    transition: all .5s;
+}
+
+.btn-on-text {
+    position: absolute;
+    right: 10px;
+    line-height: 25px;
+    color: white;
+    transition: all .5s;
+}
+/* 开关按钮 */
+.category {
+    width: 100vw;
+    overflow-x: scroll;
+}
+
+.flex-box {
+    display: flex;
+}
+
+.category li {
+    height: 40px;
+    width: 100px;
+    flex-shrink: 0;
+    font-size: 14px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    position: relative;
+    line-height: 40px;
+    text-align: center;
+    /* border: 1px solid #e1e1e1; */
+    cursor: pointer;
+    border: 1px solid #c1c1c1;
+}
+.category li.active {
+    background-color: #4dadff;
+    color: #fff;
+    border-color: #4dadff;
+}
+.card-box {
+    position: relative;
+}
+.card-box ul {
+    flex-wrap: wrap;
+}
+.card-box li{
+    width: calc(33vw - 20px);
+    border-radius: 9px;
+    flex-shrink: 0;
+    margin: 16px 8px 0 8px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.card-box img{
+    width: 100%;
+}
+.card-box .info{
+    padding: 12px;
+}

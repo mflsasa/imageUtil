@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+    <div class="switch-box flex-box">
+        时间
+        <p class="btn-on" onclick="on_off()">
+            <!-- 圆点 -->
+            <span class="btn-on-circle"></span>
+            <!-- 文字 -->
+            <span class="btn-on-text"></span>
+        </p>
+        分类
+    </div>
+    <script>
+        const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent)
+    </script>
+    <div class="category"></div>
+    <div class="card-box"></div>
+    <script src="ImageUtil.js"></script>
+    <script>
+        const imgUtil = new ImageUtil({
+            // categoryList: [], // 设置类别列表数据
+            // categoryBoxName: 'category', // 设置类别class名称
+            // imgListBoxName: 'category', // 设置图片列表class名称
+            // imgList: [], // 设置图片列表数据
+        })
+        imgUtil.init() // 初始化
+        window.onload = function () {
+            // 获取图片列表，即img标签列表
+            var imgs = document.querySelectorAll('img');
+            var imgList = document.getElementById('imgList')
+            // 可视区域高度
+            var h = window.innerHeight;
+            // 获取e到浏览器顶部的距离
+            function getTop(e) {
+                return e.offsetTop;
+            }
+            //懒加载函数
+            function lazyLoad(imgs) {
+                var imgHeight = 0;//计算可视区域图片高度
+                //1.首先可视区域中的图片正常展示
+                for (let i = 0; i < imgs.length; i++) {
+                    imgs[i].src = imgs[i].getAttribute('data-src');
+                    imgHeight += imgs[i].clientHeight;
+                    if (imgHeight > h) {
+                        break;
+                    }
+                }
+                //2.当开始滚动时，当滚动区域高度加上可视区域图片高度大于未显示图片到浏览器顶部的距离时，将src赋予未显示图片
+                //滚动区域高度
+                var s = document.documentElement.scrollTop || document.body.scrollTop;
+                for (let i = 0; i < imgs.length; i++) {
+                    if ((s + imgHeight) > getTop(imgs[i])) {
+                        imgs[i].src = imgs[i].getAttribute('data-src');
+                    }
+                }
+                //3.当滚动区域高度大于（第i+1张图片的高度和时），将第i张图片的src转变成loading
+                //获取一张图片的高度
+                var h1 = imgs[1].clientHeight;
+                for (let i = 0; i < imgs.length; i++) {
+                    if (s > h1 * (i + 1)) {
+                        imgs[i].src = "./img/loading.png";
+                    }
+                }
+            }
+            lazyLoad(imgs);
+
+            //滚动函数,d当页面滚动时执行的函数
+            window.onscroll = function () {
+                //调用懒加载函数
+                setTimeout(function () {
+                    lazyLoad(imgs);
+                }, 1000)
+            }
+        }
+    </script>
+    <script>
+        function on_off(type){
+            var btn = document.getElementsByClassName("btn-on")[0];
+            var circle = document.getElementsByClassName("btn-on-circle")[0];
+            var text = document.getElementsByClassName("btn-on-text")[0];
+            if (!type){
+                btn.style= "background-color: #ccc;"
+                circle.style="left: 40px;background-color: #888;box-shadow: 0 0 10px #888;"
+                text.style="right: 30px;color: #888;"
+                window.categorydom && (window.categorydom.style.display = 'block')
+            } else {
+                btn.style= ""
+                circle.style=""
+                text.style=""
+                window.categorydom && (window.categorydom.style.display = 'none')
+            }
+            imgUtil.compareImgList(!type ? 'category' : 'time') // 切换形态
+            btn.setAttribute("onclick", "on_off(" + !type + ")") // 修改状态
+        }
+        on_off(false)// 关闭按钮
+    </script>
+</body>
+</html>

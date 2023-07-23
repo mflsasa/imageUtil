@@ -4,7 +4,11 @@
 简单图片展示
 
 ## 用法
+### 直接开启服务即可使用、或者直接双击index.html
+
+
 ```
+// 代码引用
 const imgUtil = new ImageUtil({
     // categoryList: [], // 设置类别列表数据
     // categoryBoxName: 'category', // 设置类别class名称

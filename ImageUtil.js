@@ -32,6 +32,7 @@ class ImageUtil {
     activeType = 0
     moveInType = 0
     draggedNode = null
+    lock = false
     constructor({ categoryList, categoryBoxName, imgListBoxName, imgList }) {
         this.categoryList = categoryList || this.categoryList
         this.categoryBoxName = categoryBoxName || this.categoryBoxName
@@ -46,9 +47,11 @@ class ImageUtil {
     compareImgList(type = 'category') {
         const obj = {
             time: () => {
+                this.lock = true
                 this.setImgList('time')
             },
             category: () => {
+                this.lock = false
                 this.setImgList('category', this.activeType)
             }
         }
@@ -87,7 +90,7 @@ class ImageUtil {
             li.onmouseenter = (e) => {
                 _this.moveInType = i
                 console.log(_this.draggedNode)
-                if (_this.draggedNode && _this.draggedNode.typeId !== i) {
+                if (_this.draggedNode && _this.draggedNode.typeId !== i && !_this.lock) {
                     _this.imgList.forEach(t => {
                         t.imageId === _this.draggedNode.imageId && (t.type = i)
                     })
@@ -161,6 +164,7 @@ class ImageUtil {
                 let y3 = ev.type === 'touchend' ? ev.changedTouches[0].clientY : ev.clientY
                 obj.style.left = 0
                 obj.style.top = 0
+                if (_this.lock) return
                 if (isMobile) {
                     const list = Array.prototype.slice.call(categorydom.children[0].children)
                     for (let i = 0; i < list.length; i++) {
